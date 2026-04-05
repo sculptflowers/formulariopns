@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { base } from '$app/paths';
   import { getEpidemiologicalWeek, downloadCSV } from '../utils';
   import Select from 'svelte-select';
 
@@ -170,7 +171,7 @@
       </div>
 
       <div>
-        <a href="/" class="flex items-center">
+        <a href="{base}/" class="flex items-center">
           <img src={headerArt} class="w-auto" alt="Header Art" />
         </a>
       </div>
@@ -187,6 +188,7 @@
       O envio do formulário deve ser feito IMPRETERIVELMENTE até a segunda-feira seguinte ao encerramento da Semana Epidemiológica correspondente.
       <br><br>
       Após esse prazo, os dados ainda serão aceitos para composição de relatórios regulares. No entanto, não serão incluídos no consolidado estadual semanal encaminhado ao Ministério da Saúde. Nesse caso, a unidade notificadora será considerada silenciosa perante o Ministério.
+    </p>
     <div class="flex flex-col sm:flex-row gap-4">
       <img src={ifbaLogo} class="w-auto" alt="Logo IFBA" />
       <img src={ufrbLogo} class="w-auto" alt="Logo UFRB" />
