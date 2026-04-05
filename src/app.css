@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #1D2C63;
+  --color-primary-dark: #15204a;
+  --color-secondary: #e0e1f2;
+  --color-bg: #f5f7fa;
+  --color-text: #333;
+  --color-white: #fff;
+  --color-success: #388e3c;
+  --color-warning: #fbc02d;
+  --color-danger: #d32f2f;
+  --radius: 10px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+:root {
+  font-family: 'Instrument Sans', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  min-height: 100vh;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 8px;
+  }
+}
+
+input[type="radio"] {
+  accent-color: var(--color-primary);
+}
+
+@layer components {
+  .section-title {
+    @apply text-primary py-3 font-bold text-2xl;
+  }
+  
+  .form-group {
+    @apply mb-5;
+  }
+
+  .form-label {
+    @apply block font-medium mb-2;
+  }
+
+  .form-input {
+    @apply w-full p-3 text-base rounded-[var(--radius)] border border-gray-300 focus:border-primary focus:outline-none transition-colors;
+  }
+
+  .radio-group {
+    @apply flex gap-4 flex-wrap;
+  }
+  
+  .btn-submit {
+    @apply w-full bg-primary text-white border-none p-4 text-lg rounded-[var(--radius)] cursor-pointer transition-colors mt-8 hover:bg-primary-dark disabled:bg-gray-300 disabled:cursor-not-allowed;
+  }
+}
