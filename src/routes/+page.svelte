@@ -155,7 +155,24 @@
 
     exportData['Responsável'] = responsavel;
 
-    downloadCSV(exportData, `formulario_pns_semana_${semanaFinal}.csv`);
+    let nomeUnidadeArquivo = 'unidade';
+    if (tipoUnidadeNotificante === 'UBS/USF') {
+      nomeUnidadeArquivo = exportData['Unidade (UBS/USF)'] || 'ubs';
+    } else if (tipoUnidadeNotificante === 'Hospital' || tipoUnidadeNotificante === 'UPA') {
+      nomeUnidadeArquivo = exportData['Hospital/UPA'] || 'hospital';
+    } else if (tipoUnidadeNotificante === 'Centro Especializado e Laboratório') {
+      nomeUnidadeArquivo = exportData['Laboratório'] || 'laboratorio';
+    }
+
+    const uNameFormatado = nomeUnidadeArquivo
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_]/g, '');
+
+    downloadCSV(exportData, `pns_${uNameFormatado}_semana_${semanaFinal}.csv`);
     alert("Pronto! Planilha gerada com sucesso.");
   }
 </script>
