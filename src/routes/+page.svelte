@@ -175,6 +175,31 @@
     downloadCSV(exportData, `pns_${uNameFormatado}_semana_${semanaFinal}.csv`);
     alert("Pronto! Planilha gerada com sucesso.");
   }
+
+  function encaminharEmail() {
+    // Validar form primeiro para garantir que os campos obrigatórios estão preenchidos
+    const form = document.querySelector('form');
+    if (form && !form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const semanaFinal = manualWeekChecked ? manualWeek : currentWeekNum;
+
+    let nomeUnidade = 'Unidade';
+    if (tipoUnidadeNotificante === 'UBS/USF') {
+      nomeUnidade = optionsUbs.find((o: { value: string; label: string }) => o.value === unidadeUBS)?.label ?? unidadeUBS ?? 'ubs';
+    } else if (tipoUnidadeNotificante === 'Hospital' || tipoUnidadeNotificante === 'UPA') {
+      nomeUnidade = optionsHospitais.find((o: { value: string; label: string }) => o.value === hospitalUPA)?.label ?? hospitalUPA ?? 'hospital';
+    } else if (tipoUnidadeNotificante === 'Centro Especializado e Laboratório') {
+      nomeUnidade = optionsLab.find((o: { value: string; label: string }) => o.value === laboratorio)?.label ?? laboratorio ?? 'laboratorio';
+    }
+
+    const subject = encodeURIComponent(`PNS - ${nomeUnidade} - Semana ${semanaFinal}`);
+    const body = encodeURIComponent('Olá,\n\nSegue em anexo a planilha de notificação do PNS preenchida.\n\n(Lembrete: Anexe manualmente o arquivo CSV gerado pelo formulário antes de enviar este e-mail.)\n');
+    
+    window.location.href = `mailto:viepsaj@gmail.com?subject=${subject}&body=${body}`;
+  }
 </script>
 
 <div class="container mx-auto max-w-4xl bg-white p-6 md:p-10 rounded-xl my-10 relative overflow-hidden">
@@ -466,8 +491,19 @@
       <input type="text" bind:value={responsavel} class="form-input" required placeholder="Digite o seu nome completo" />
     </div>
 
-    <button type="submit" class="btn-submit">
-      Finalizar e Exportar CSV
-    </button>
+    <div class="flex flex-col md:flex-row gap-4 w-full mt-8">
+      <button type="submit" class="btn-submit !mt-0 md:flex-1">
+        Finalizar e Exportar CSV
+      </button>
+
+      <button 
+        type="button" 
+        onclick={encaminharEmail}
+        class="btn-submit !mt-0 md:flex-1 !bg-teal-600 hover:!bg-teal-700 !text-white flex items-center justify-center gap-2"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Encaminhar para E-mail
+      </button>
+    </div>
   </form>
 </div>
